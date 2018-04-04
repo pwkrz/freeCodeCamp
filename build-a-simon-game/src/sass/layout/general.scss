@@ -1,10 +1,57 @@
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+button {
+    cursor: pointer;
+}
 body {
-    background: $bg-col;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    h1 {
-        color: $h1-col;
-        text-align: center;
-        text-shadow: 5px 5px 5px black;
-        transition: all .2s;
+    .simon-wrapper {
+        position: relative;
+        width: 500px;
+        height: 500px;
+        border: 25px solid $main-border-col;
+        border-radius: 100%;
+        overflow: hidden;
+
+        .controls {
+            position: absolute;
+            top: calc(35% - 10px);
+            left: calc(25% - 10px);
+            z-index: 100;
+            width: 50%;
+            height: 30%;
+            background-color: #999;
+            border: 10px solid $bg-col;
+
+            h1 {
+                font-family: "Courier New", Courier, monospace;
+            }
+        }
+        .row {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            height: 50%;
+
+            @each $name, $color in $field-vals {
+                $i: index($field-vals, $name $color);
+                
+                #field-#{$i} {
+                    display: inline-block;
+                    width: calc(50% - 20px);
+                    height: calc(100% - 20px);
+                    border: 10px solid #000;
+                    border-#{$name}-radius: 100%;
+                    background-color: $color;
+                }
+            }
+        }
     }
 }

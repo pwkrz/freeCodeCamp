@@ -1,9 +1,75 @@
+html, body {
+  height: 100%;
+  overflow: hidden; }
+
+button {
+  cursor: pointer; }
+
 body {
-  background: #000064; }
-  body h1 {
-    color: #e7c3cb;
-    text-align: center;
-    text-shadow: 5px 5px 5px black;
-    -webkit-transition: all .2s;
-    -o-transition: all .2s;
-    transition: all .2s; }
+  background: #000;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center; }
+  body .simon-wrapper {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    border: 25px solid #e7c3cb;
+    border-radius: 100%;
+    overflow: hidden; }
+    body .simon-wrapper .controls {
+      position: absolute;
+      top: calc(35% - 10px);
+      left: calc(25% - 10px);
+      z-index: 100;
+      width: 50%;
+      height: 30%;
+      background-color: #999;
+      border: 10px solid #142422; }
+      body .simon-wrapper .controls h1 {
+        font-family: "Courier New", Courier, monospace; }
+    body .simon-wrapper .row {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-pack: distribute;
+          justify-content: space-around;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      width: 100%;
+      height: 50%; }
+      body .simon-wrapper .row #field-1 {
+        display: inline-block;
+        width: calc(50% - 20px);
+        height: calc(100% - 20px);
+        border: 10px solid #000;
+        border-top-left-radius: 100%;
+        background-color: magenta; }
+      body .simon-wrapper .row #field-2 {
+        display: inline-block;
+        width: calc(50% - 20px);
+        height: calc(100% - 20px);
+        border: 10px solid #000;
+        border-top-right-radius: 100%;
+        background-color: #868801; }
+      body .simon-wrapper .row #field-3 {
+        display: inline-block;
+        width: calc(50% - 20px);
+        height: calc(100% - 20px);
+        border: 10px solid #000;
+        border-bottom-left-radius: 100%;
+        background-color: #529b64; }
+      body .simon-wrapper .row #field-4 {
+        display: inline-block;
+        width: calc(50% - 20px);
+        height: calc(100% - 20px);
+        border: 10px solid #000;
+        border-bottom-right-radius: 100%;
+        background-color: #4d7692; }
