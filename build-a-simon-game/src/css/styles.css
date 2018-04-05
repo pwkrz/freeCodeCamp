@@ -45,31 +45,40 @@ body {
               align-items: center;
       width: 100%;
       height: 50%; }
-      body .simon-wrapper .row #field-1 {
+      body .simon-wrapper .row .field {
         display: inline-block;
         width: calc(50% - 20px);
         height: calc(100% - 20px);
         border: 10px solid #000;
+        pointer-events: none; }
+        body .simon-wrapper .row .field.clickable {
+          pointer-events: auto;
+          cursor: pointer; }
+      body .simon-wrapper .row #field-1 {
         border-top-left-radius: 100%;
         background-color: magenta; }
+        body .simon-wrapper .row #field-1.blink {
+          background: -webkit-radial-gradient(rgba(255, 255, 255, 0.6), magenta 90%);
+          background: -o-radial-gradient(rgba(255, 255, 255, 0.6), magenta 90%);
+          background: radial-gradient(rgba(255, 255, 255, 0.6), magenta 90%); }
       body .simon-wrapper .row #field-2 {
-        display: inline-block;
-        width: calc(50% - 20px);
-        height: calc(100% - 20px);
-        border: 10px solid #000;
         border-top-right-radius: 100%;
         background-color: #868801; }
+        body .simon-wrapper .row #field-2.blink {
+          background: -webkit-radial-gradient(rgba(255, 255, 255, 0.6), #868801 90%);
+          background: -o-radial-gradient(rgba(255, 255, 255, 0.6), #868801 90%);
+          background: radial-gradient(rgba(255, 255, 255, 0.6), #868801 90%); }
       body .simon-wrapper .row #field-3 {
-        display: inline-block;
-        width: calc(50% - 20px);
-        height: calc(100% - 20px);
-        border: 10px solid #000;
         border-bottom-left-radius: 100%;
         background-color: #529b64; }
+        body .simon-wrapper .row #field-3.blink {
+          background: -webkit-radial-gradient(rgba(255, 255, 255, 0.6), #529b64 90%);
+          background: -o-radial-gradient(rgba(255, 255, 255, 0.6), #529b64 90%);
+          background: radial-gradient(rgba(255, 255, 255, 0.6), #529b64 90%); }
       body .simon-wrapper .row #field-4 {
-        display: inline-block;
-        width: calc(50% - 20px);
-        height: calc(100% - 20px);
-        border: 10px solid #000;
         border-bottom-right-radius: 100%;
         background-color: #4d7692; }
+        body .simon-wrapper .row #field-4.blink {
+          background: -webkit-radial-gradient(rgba(255, 255, 255, 0.6), #4d7692 90%);
+          background: -o-radial-gradient(rgba(255, 255, 255, 0.6), #4d7692 90%);
+          background: radial-gradient(rgba(255, 255, 255, 0.6), #4d7692 90%); }

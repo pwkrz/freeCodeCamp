@@ -1,6 +1,6 @@
 const gulp = require('gulp');
 const ts = require('gulp-typescript');
-const tsProject = ts.createProject('tsconfig.json');
+const sourcemaps = require('gulp-sourcemaps');
 const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const plumber = require('gulp-plumber');
@@ -9,9 +9,14 @@ const del = require('del');
 const useref = require('gulp-useref');
 
 gulp.task("tsc", function () {
+    let tsProject = ts.createProject("tsconfig.json");
+
     return tsProject.src()
+        .pipe(sourcemaps.init())
         .pipe(tsProject())
-        .js.pipe(gulp.dest("./src/js"));
+        .js
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest("./src/js"));
 });
 
 gulp.task("css", function(){
@@ -36,6 +41,7 @@ gulp.task('server', function() {
 gulp.task("watch", function(){
 
     gulp.watch("./src/sass/**/*.scss", ["css"]);
+    gulp.watch("./src/**/*.ts", ["tsc"]);
     gulp.watch(["./src/**/*.html", "./src/**/*.js"], browserSync.reload);
 
 });
