@@ -1,22 +1,37 @@
 const gulp = require('gulp');
-const ts = require('gulp-typescript');
+const tsify = require('tsify');
 const sourcemaps = require('gulp-sourcemaps');
+// const ts = require('gulp-typescript');
 const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const plumber = require('gulp-plumber');
 const browserSync = require('browser-sync').create();
 const del = require('del');
 const useref = require('gulp-useref');
+const browserify = require('browserify');
+const runSequence = require('run-sequence');
+const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
 
-gulp.task("tsc", function () {
-    let tsProject = ts.createProject("tsconfig.json");
+// gulp.task("tsc", ["clean"], function () {
+//     let tsProject = ts.createProject("tsconfig.json");
 
-    return tsProject.src()
-        .pipe(sourcemaps.init())
-        .pipe(tsProject())
-        .js
-        .pipe(sourcemaps.write())
-        .pipe(gulp.dest("./src/js"));
+//     return tsProject.src()
+//         .pipe(sourcemaps.init())
+//         .pipe(tsProject())
+//         .js
+//         .pipe(sourcemaps.write())
+//         .pipe(gulp.dest("./src/temp/js"));
+// });
+gulp.task('build:ts', function () {
+    return browserify({debug: true})
+        .add('./src/ts/main.ts')
+        .plugin(tsify)
+        .bundle()
+        .on('error', function (error) { console.error(error.toString()); })
+        .pipe(source('bundle.js'))
+        .pipe(buffer())
+        .pipe(gulp.dest('./src/js/'));
 });
 
 gulp.task("css", function(){
@@ -41,7 +56,7 @@ gulp.task('server', function() {
 gulp.task("watch", function(){
 
     gulp.watch("./src/sass/**/*.scss", ["css"]);
-    gulp.watch("./src/**/*.ts", ["tsc"]);
+    gulp.watch("./src/**/*.ts", ["build:ts"]);
     gulp.watch(["./src/**/*.html", "./src/**/*.js"], browserSync.reload);
 
 });
@@ -56,8 +71,14 @@ gulp.task("html", function(){
 
 gulp.task("clean", function(){
 
-    del("dist/")
+    del(["./dist/", "./src/js/temp"])
 
 });
 
-gulp.task("default", ["tsc", "css", "server", "watch"]);
+gulp.task("build", function(){
+
+    runSequence("clean", "tsc", "css")
+
+});
+
+gulp.task("default", ["build:ts", "css", "server", "watch"]);
