@@ -6,7 +6,10 @@ import SimonGame from "./game"
         document.addEventListener( "DOMContentLoaded", function(){
             // document.removeEventListener( "DOMContentLoaded", <EventListener>arguments.callee, false );
 
-            let simon1 = new SimonGame(document.querySelectorAll(".field"), document.querySelector("#startBtn"), document.querySelector("#strictBtn"))
+            let simon1 = new SimonGame(document.querySelectorAll(".field"),
+                                       document.querySelector("#counter"),
+                                       document.querySelector("#startBtn"),
+                                       document.querySelector("#strictCheck"))
         }, false );
         // Legacy Internet Explorer model
     } else if ( (<any>document).attachEvent ) {
@@ -14,7 +17,10 @@ import SimonGame from "./game"
             if ( document.readyState === "complete" ) {
                 // (<any>document).detachEvent( "onreadystatechange", arguments.callee );
 
-                let simon1 = new SimonGame(document.querySelectorAll(".field"), document.querySelector("#startBtn"), document.querySelector("#strictBtn"))
+                let simon1 = new SimonGame(document.querySelectorAll(".field"),
+                                           document.querySelector("#counter"),
+                                           document.querySelector("#startBtn"),
+                                           document.querySelector("#strictCheck"))
             }
         });
     } else {
