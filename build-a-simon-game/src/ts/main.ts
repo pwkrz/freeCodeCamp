@@ -1,5 +1,5 @@
 import SimonGame from "./game"
-
+console.log(SimonGame);
 // let simon1 = new SimonGame(document.querySelectorAll(".field"), document.querySelector("#startBtn"), document.querySelector("#strictBtn"));
 (function(){
     if ( document.addEventListener ) {

@@ -1,45 +1,50 @@
 const gulp = require('gulp');
 const tsify = require('tsify');
 const sourcemaps = require('gulp-sourcemaps');
-// const ts = require('gulp-typescript');
 const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const plumber = require('gulp-plumber');
+const uglify = require('gulp-uglify');
+const gulpif = require('gulp-if');
 const browserSync = require('browser-sync').create();
 const del = require('del');
-const useref = require('gulp-useref');
 const browserify = require('browserify');
 const runSequence = require('run-sequence');
 const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
+const argv = require('yargs').argv
+const errorLogger = error => console.error(error.toString());
 
-// gulp.task("tsc", ["clean"], function () {
-//     let tsProject = ts.createProject("tsconfig.json");
+gulp.task('compile:ts', function () {
 
-//     return tsProject.src()
-//         .pipe(sourcemaps.init())
-//         .pipe(tsProject())
-//         .js
-//         .pipe(sourcemaps.write())
-//         .pipe(gulp.dest("./src/temp/js"));
-// });
-gulp.task('build:ts', function () {
-    return browserify({debug: true})
-        .add('./src/ts/main.ts')
+    return browserify({
+            debug: true,
+            entries: "./src/ts/main.ts"
+        })
         .plugin(tsify)
         .bundle()
-        .on('error', function (error) { console.error(error.toString()); })
-        .pipe(source('bundle.js'))
+        .pipe(plumber())
+        .pipe(source('simon.min.js'))
         .pipe(buffer())
+        .pipe(sourcemaps.init({loadMaps: true}))
+            .pipe(uglify())
+            .pipe(plumber())
+        .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('./src/js/'));
 });
 
 gulp.task("css", function(){
 
     gulp.src("./src/sass/styles.scss")
+        .pipe(sourcemaps.init())
         .pipe(plumber())
-        .pipe(sass.sync())
+        .pipe(sass.sync({
+            outputStyle: 'compressed',
+            outFile: './src/css/styles.css',
+            sourceMap: true
+        }))
         .pipe(autoprefixer())
+        .pipe(sourcemaps.write("./"))
         .pipe(gulp.dest("./src/css"))
         .pipe(browserSync.stream())
 
@@ -61,24 +66,35 @@ gulp.task("watch", function(){
 
 });
 
-gulp.task("html", function(){
+gulp.task("copy", function(){
 
-    gulp.src("./src/**/*.html")
-        .pipe(useref())
-        .pipe(gulp.dest("./dist"))
+    return gulp.src(["./src/index.html", "./src/js/*.js", "./src/css/*.css"], {
+            base: "src/"
+        })
+        .pipe(gulp.dest("dist/"))
 
 });
 
 gulp.task("clean", function(){
 
-    del(["./dist/", "./src/js/temp"])
+    return del("./dist/")
 
 });
 
 gulp.task("build", function(){
 
-    runSequence("clean", "tsc", "css")
+    runSequence("clean", "copy", "build:server")
 
 });
 
-gulp.task("default", ["build:ts", "css", "server", "watch"]);
+gulp.task("build:server", function(){
+    
+    return argv.server ? browserSync.init({
+        server: {
+            baseDir: "./dist/"
+        }
+    }) : null;
+
+});
+
+gulp.task("default", ["compile:ts", "css", "server", "watch"]);
