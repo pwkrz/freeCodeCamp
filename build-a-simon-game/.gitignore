@@ -65,5 +65,5 @@ typings/
 *.css.map
 
 #compiled
-.src/css/
-.src/js/
+src/css/
+src/js/
