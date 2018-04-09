@@ -4,6 +4,7 @@
     ],
     "compilerOptions": {
         "noImplicitAny": true,
+        "noImplicitUseStrict": true,
         "target": "es5",
         "module": "commonjs",
         "sourceMap": true

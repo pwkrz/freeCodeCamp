@@ -75,13 +75,18 @@ export default class SimonGame {
     private init = (): void => {
         this.sequence = [];
 
+        this.counter.classList.add("active");
+        this.counter.classList.remove("inactive");
+        
         this.compMove(true)
     }
     private handleLabel = (e: MouseEvent | TouchEvent) => {
         if (this.strictCheck.checked) {
-            (<HTMLElement>e.target).parentElement.classList.add("checked");
+            (<HTMLElement>e.target).parentElement.classList.add("active");
+            (<HTMLElement>e.target).parentElement.classList.remove("inactive");
         } else {
-            (<HTMLElement>e.target).parentElement.classList.remove("checked");
+            (<HTMLElement>e.target).parentElement.classList.remove("active");
+            (<HTMLElement>e.target).parentElement.classList.add("inactive");
         }
     }
 }

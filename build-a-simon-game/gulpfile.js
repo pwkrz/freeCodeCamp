@@ -68,7 +68,7 @@ gulp.task('dev:server', function(cb) {
 gulp.task("watch", ["dev:server"], function(){
     
     gulp.watch("./src/sass/**/*.scss", ["css"]);
-    gulp.watch("./src/**/*.ts", ["build:ts"]);
+    gulp.watch("./src/**/*.ts", ["compile:ts"]);
     gulp.watch(["./src/**/*.html", "./src/**/*.js"], browserSync.reload);
 });
 
