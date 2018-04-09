@@ -1,3 +1,5 @@
+// To do: audio loop() and pause()
+
 import {UserMove, FIXFORMAT} from "./resources"
 import FieldMap from "./fieldmap"
 
