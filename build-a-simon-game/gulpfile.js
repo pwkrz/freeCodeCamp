@@ -12,7 +12,8 @@ const browserify = require('browserify');
 const runSequence = require('run-sequence');
 const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
-const argv = require('yargs').argv
+const argv = require('yargs').argv;
+const fs = require('fs');
 const errorLogger = error => console.error(error.toString());
 
 gulp.task('compile:ts', function () {
@@ -50,20 +51,25 @@ gulp.task("css", function(){
 
 });
 
-gulp.task('server', function() {
-    browserSync.init({
-        server: {
-            baseDir: "./src/"
-        }
-    });
+gulp.task('dev:server', function(cb) {
+    
+    if(argv.server){
+
+        browserSync.init({
+            server: {
+                baseDir: "./src/"
+            }
+        });
+    
+        cb();
+    }
 });
 
-gulp.task("watch", function(){
-
+gulp.task("watch", ["dev:server"], function(){
+    
     gulp.watch("./src/sass/**/*.scss", ["css"]);
     gulp.watch("./src/**/*.ts", ["build:ts"]);
     gulp.watch(["./src/**/*.html", "./src/**/*.js"], browserSync.reload);
-
 });
 
 gulp.task("copy", function(){
@@ -81,11 +87,6 @@ gulp.task("clean", function(){
 
 });
 
-gulp.task("build", function(){
-
-    runSequence("clean", "copy", "build:server")
-
-});
 
 gulp.task("build:server", function(){
     
@@ -97,4 +98,15 @@ gulp.task("build:server", function(){
 
 });
 
-gulp.task("default", ["compile:ts", "css", "server", "watch"]);
+gulp.task("build", function(){
+
+    let compiled = fs.existsSync("src/js/simon.min.js") && fs.existsSync("src/css/styles.css");
+
+    if (compiled) {
+       runSequence("clean", "copy", "build:server");
+    } else {
+        console.error("Project not compiled. Run 'gulp' first.");
+    }
+});
+
+gulp.task("default", ["compile:ts", "css", "watch"]);
