@@ -27,3 +27,6 @@ typings/
 #compiled
 src/css/
 src/js/
+
+#build
+dist/
